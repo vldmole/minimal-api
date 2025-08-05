@@ -1,6 +1,8 @@
+using minimal_api.api.auth;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+ApiMapper.mapEndpoints(app);
 
 app.Run();
