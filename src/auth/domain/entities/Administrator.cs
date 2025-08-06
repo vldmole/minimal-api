@@ -9,6 +9,14 @@ namespace minimal_api.src.auth.domain.entities
 {
     public class Administrator
     {
+        public Administrator(int id, string email, string password, string perfil)
+        {
+            this.Id = id;
+            this.Email = email;
+            this.Password = password;
+            this.Perfil = perfil;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } = default!;
@@ -17,9 +25,11 @@ namespace minimal_api.src.auth.domain.entities
         [StringLength(100)]
         public string Email { get; set; } = default!;
 
+        [Required]
         [StringLength(50)]
         public string Password { get; set; } = default!;
 
+        [Required]
         [StringLength(10)]
         public string Perfil { get; set; } = default!;
     }
