@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using minimal_api.src.auth.domain.entities;
 using minimal_api.src.auth.domain.services.business;
@@ -13,7 +14,7 @@ namespace minimal_api.auth
     {
         private readonly AuthDbContext _dbContext = dbContext;
 
-        public static string login(LoginDTO loginDto)
+ /*       public static string login(LoginDTO loginDto)
         {
             Console.WriteLine(loginDto.Email);
             Console.WriteLine(loginDto.Password);
@@ -24,15 +25,12 @@ namespace minimal_api.auth
             string token = "xywz";
             return token;
         }
-
+*/
         public string Login(LoginDTO loginDTO)
         {
-            Predicate<Administrator> predicate = (entity) =>
-            {
-                return entity.Email.Equals(loginDTO.Email) && entity.Password.Equals(loginDTO.Password);
-            };
-
-            IQueryable<Administrator> dbSet = _dbContext.Administrators.Where<Administrator>(entity => predicate.Invoke(entity));
+            IQueryable<Administrator> dbSet = _dbContext.Administrators.Where<Administrator>(
+                entity => (entity.Email.Equals(loginDTO.Email) && entity.Password.Equals(loginDTO.Password))
+            );
             if (!dbSet.Any())
                 throw new Exception("Invalid user or password");
 

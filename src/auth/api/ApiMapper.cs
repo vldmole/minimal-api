@@ -2,8 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.VisualBasic;
 using minimal_api.auth;
+using minimal_api.src.auth.domain.services.business;
 
 namespace minimal_api.api.auth
 {
@@ -13,22 +18,36 @@ namespace minimal_api.api.auth
         void mapEndpoints(WebApplication app)
         {
             app.MapGet("/", () => "c# Minimal-API");
-            app.MapPost("/login", CreateDelegateHandler<LoginDTO>(LoginService.login));
+    
+            app.MapPost("/login",
+                        static ([FromBody] LoginDTO loginDTO, ILoginService service)
+                            => Results.Ok($"token : {service.Login(loginDTO)}")
+                ).AddEndpointFilter<ExceptionFilter>();
         }
 
-        internal static Delegate CreateDelegateHandler<T>(Delegate method)
+        internal class ExceptionFilter : IEndpointFilter
         {
-            return (T param) =>
+            public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
             {
                 try
                 {
-                    return Results.Ok(method.DynamicInvoke(param));
+                    // Execute the next filter in the pipeline or the endpoint handler
+                    return await next(context);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return  Results.Unauthorized();
+                    // Custom exception handling logic
+                    // You can log the exception, return a specific error response, etc.
+                    Console.WriteLine($"ExceptionFilter: An error occurred: {ex.Message}");
+
+                    // Return a ProblemDetails or a custom error object
+                    return Results.Problem(
+                        statusCode: StatusCodes.Status401Unauthorized,
+                        title: "Invalid Data",
+                        detail: ex.Message
+                    );
                 }
-            };
+            }
         }
     }
 }
