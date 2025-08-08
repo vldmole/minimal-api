@@ -3,6 +3,8 @@ using minimal_api.api.auth;
 using minimal_api.auth;
 using minimal_api.src.auth.domain.services.business;
 using minimal_api.src.auth.infraestructure.database;
+using minimal_api.src.vehicle.domain.entities;
+using minimal_api.src.vehicles.infraestructure.database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
         ServerVersion.AutoDetect(connectionString)
     );
 });
+
+builder.Services.AddDbContext<VehicleDbContext>();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 
