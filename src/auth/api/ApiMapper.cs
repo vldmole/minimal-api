@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualBasic;
 using minimal_api.auth;
 using minimal_api.src.auth.domain.services.business;
+using minimal_api.src.home.modelViews;
 
 namespace minimal_api.api.auth
 {
@@ -17,7 +18,7 @@ namespace minimal_api.api.auth
         static public
         void mapEndpoints(WebApplication app)
         {
-            app.MapGet("/", () => "c# Minimal-API");
+            
     
             app.MapPost("/login",
                         static ([FromBody] LoginDTO loginDTO, ILoginService service)

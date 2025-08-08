@@ -3,6 +3,7 @@ using minimal_api.api.auth;
 using minimal_api.auth;
 using minimal_api.src.auth.domain.services.business;
 using minimal_api.src.auth.infraestructure.database;
+using minimal_api.src.home.modelViews;
 using minimal_api.src.vehicle.domain.entities;
 using minimal_api.src.vehicles.infraestructure.database;
 
@@ -30,8 +31,18 @@ builder.Services.AddDbContext<VehicleDbContext>();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 ApiMapper.mapEndpoints(app);
+
+app.MapGet("/", () => Results.Json(new Home()));
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 
 app.Run();
