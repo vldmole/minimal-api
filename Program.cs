@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimal_api.api.auth;
 using minimal_api.auth;
@@ -31,7 +32,7 @@ builder.Services.AddDbContext<VehicleDbContext>();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 
-builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -42,7 +43,6 @@ app.MapGet("/", () => Results.Json(new Home()));
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 
 app.Run();
