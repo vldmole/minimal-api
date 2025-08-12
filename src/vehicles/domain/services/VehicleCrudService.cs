@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using minimal_api.src.common.domain.services.crud.impl;
 using minimal_api.src.vehicle.domain.entities;
 using minimal_api.src.vehicles.dtos;
 using minimal_api.src.vehicles.infraestructure.database;

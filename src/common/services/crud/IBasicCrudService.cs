@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-namespace minimal_api.src.vehicles.domain.services.crud.impl
+namespace minimal_api.src.common.domain.services.crud.impl
 {
     public interface IBasicCrudService<TEntity> where TEntity : class
     {

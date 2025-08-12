@@ -5,18 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace minimal_api.src.auth.domain.entities
+namespace minimal_api.src.administrators.domain.entities
 {
     public class Administrator
     {
-        public Administrator(int id, string email, string password, string perfil)
-        {
-            this.Id = id;
-            this.Email = email;
-            this.Password = password;
-            this.Perfil = perfil;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } = default!;

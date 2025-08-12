@@ -1,25 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using minimal_api.src.administrators.domain.entities;
 
-namespace minimal_api.src.auth.infraestructure.database
+namespace minimal_api.src.administrators.infraestructure.database
 {
-    public class AuthDbContext : DbContext
+    public class AdministratorDbContext(IConfiguration appSettings) : DbContext
     {
-        private readonly IConfiguration _appSettings;
-
-        public AuthDbContext(IConfiguration appSettings)
-        {
-            this._appSettings = appSettings;
-        }
+        private readonly IConfiguration _appSettings = appSettings;
 
         public DbSet<Administrator> Administrators { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           /* modelBuilder.Entity<Administrator>().HasData(
-                new Administrator(1, "administrator@myCompany.com", "1234", "Admin"
-                )
-            );*/
+           modelBuilder.Entity<Administrator>().HasData(
+                new Administrator()
+                {
+                    Id = 1,
+                    Email = "administrator@myCompany.com",
+                    Password = "1234",
+                    Perfil = "Admin"
+                }
+            );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
