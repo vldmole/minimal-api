@@ -1,22 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace minimal_api.src.vehicle.domain.entities
 {
-    public class Vehicle
+    public class Vehicle : IValidatableObject
     {
-        public Vehicle(int id, string name, string brand, int year)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Brand = brand;
-            this.Year = year;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } = default!;
@@ -31,5 +21,18 @@ namespace minimal_api.src.vehicle.domain.entities
 
         [Required]
         public int Year { get; set; } = default!;
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            List<ValidationResult> errorList = [];
+
+            Vehicle vehicle = (Vehicle)validationContext.ObjectInstance;
+            
+            if (vehicle.Year < 1900)
+                errorList.Add(new ValidationResult($"Attribute 'Year' (value: {vehicle.Year}) needs to be greater than 1900"
+                                                   , ["Year"]));
+
+            return errorList;
+        }
     }
 }

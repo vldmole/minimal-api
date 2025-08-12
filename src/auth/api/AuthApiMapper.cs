@@ -8,25 +8,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualBasic;
 using minimal_api.auth;
+using minimal_api.src.api;
 using minimal_api.src.auth.domain.services.business;
 using minimal_api.src.home.modelViews;
 
 namespace minimal_api.api.auth
 {
-    public class ApiMapper
+    public class AuthApiMapper : IEndpointMapper
     {
-        static public
-        void mapEndpoints(WebApplication app)
+        public static void MapEndpoints<TExceptionHandler>(WebApplication app) where TExceptionHandler : IEndpointExcpetionHandler
         {
-            
-    
             app.MapPost("/login",
                         static ([FromBody] LoginDTO loginDTO, ILoginService service)
                             => Results.Ok($"token : {service.Login(loginDTO)}")
-                ).AddEndpointFilter<ExceptionFilter>();
+                )
+                .AddEndpointFilter<TExceptionHandler>()
+                .WithTags("Auth");
         }
-
-        internal class ExceptionFilter : IEndpointFilter
+    }
+/*        internal class ExceptionFilter : IEndpointFilter
         {
             public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
             {
@@ -51,4 +51,5 @@ namespace minimal_api.api.auth
             }
         }
     }
+    */
 }

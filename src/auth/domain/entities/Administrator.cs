@@ -23,6 +23,7 @@ namespace minimal_api.src.auth.domain.entities
 
         [Required]
         [StringLength(100)]
+        [EmailAddress]
         public string Email { get; set; } = default!;
 
         [Required]
