@@ -18,6 +18,7 @@ namespace minimal_api.src.administrators.api
                     var newDto = service.Create(dto);
                     return Results.Created($"{URL_BASE}/{newDto.Id}", newDto);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -27,15 +28,17 @@ namespace minimal_api.src.administrators.api
                     Administrator newAdm = service.Update(id, dto);
                     return Results.Created($"{URL_BASE}/{newAdm.Id}", newAdm);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
             app.MapDelete($"{URL_BASE}/{{id}}",
-                static ([FromRoute] int id, IAdministratorCrudService service)=>
+                static ([FromRoute] int id, IAdministratorCrudService service) =>
                 {
                     service.Delete(id);
                     return Results.Ok();
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -45,15 +48,17 @@ namespace minimal_api.src.administrators.api
                 {
                     return service.FindById(id);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
             app.MapGet(URL_BASE,
-                static (IAdministratorCrudService service, [FromQuery] int page=0, [FromQuery] int pageSize=20) =>
+                static (IAdministratorCrudService service, [FromQuery] int page = 0, [FromQuery] int pageSize = 20) =>
                 {
                     var list = service.ReadAll((v) => true, page, pageSize);
                     return Results.Ok(list);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
         }

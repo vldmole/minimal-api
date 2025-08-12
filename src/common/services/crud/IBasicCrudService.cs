@@ -13,7 +13,7 @@ namespace minimal_api.src.common.domain.services.crud.impl
         TEntity Update(TEntity entity);
         void Delete(int id);
 
-        List<TEntity> ReadAll(Expression<Func<TEntity, bool>> predicate, int page, int pageSize );
+        List<TEntity> ReadAll(Expression<Func<TEntity, bool>> predicate, int page=0, int pageSize=10 );
         TEntity FindById(int id);
 
         void SaveChanges();

@@ -21,6 +21,7 @@ namespace minimal_api.src.vehicles.api
                     var vehicle = service.Create(vehicleDTO);
                     return Results.Created($"/Vehicle/{vehicle.Id}", vehicle);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Vehicle");
 
@@ -31,15 +32,17 @@ namespace minimal_api.src.vehicles.api
                     Vehicle vehicle = service.Update(id, vehicleDTO);
                     return Results.Created($"/Vehicle/{vehicle.Id}", vehicle);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Vehicle");
 
             app.MapDelete("/vehicle/{id}",
-                static ([FromRoute] int id, IVehicleCrudService service)=>
+                static ([FromRoute] int id, IVehicleCrudService service) =>
                 {
                     service.Delete(id);
                     return Results.Ok();
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Vehicle");
 
@@ -49,6 +52,7 @@ namespace minimal_api.src.vehicles.api
                 {
                     return service.FindById(id);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Vehicle");
 
@@ -58,6 +62,7 @@ namespace minimal_api.src.vehicles.api
                     var list = service.ReadAll((v) => true, page, pageSize);
                     return Results.Ok(list);
                 })
+                .RequireAuthorization()
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Vehicle");
         }
