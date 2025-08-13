@@ -1,7 +1,5 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using minimal_api.api.auth;
@@ -106,7 +104,6 @@ var app = builder.Build();
 
 app.MapGet("/", () => Results.Json(new Home()));
 
-//GlobalEndpointExceptionHandler globalExceptionHandler = new GlobalEndpointExceptionHandler();
 
 AuthApiMapper.MapEndpoints<GlobalEndpointExceptionHandler>(app);
 VehiclesApiMapper.MapEndpoints<GlobalEndpointExceptionHandler>(app);
