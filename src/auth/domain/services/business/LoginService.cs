@@ -37,7 +37,7 @@ namespace minimal_api.auth
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim>()
             {
-                new(ClaimTypes.Email, administrator.Email),
+                new("Email", administrator.Email),
                 new("Perfil", administrator.Perfil)
             };
             
