@@ -27,21 +27,20 @@ var jwtKey = builder.Configuration.GetSection("Jwt")["key"] ?? "1234567890";
 
 builder.Services
     .AddAuthentication(static option =>
+    {
+        option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new TokenValidationParameters
         {
-            option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }
-    ).AddJwtBearer(option =>
-        {
-            option.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateLifetime = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-        }
-    );
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
     
 builder.Services.AddAuthorization();
 

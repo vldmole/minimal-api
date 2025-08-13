@@ -38,7 +38,8 @@ namespace minimal_api.auth
             var claims = new List<Claim>()
             {
                 new("Email", administrator.Email),
-                new("Perfil", administrator.Perfil)
+                new("Perfil", administrator.Perfil),
+                new(ClaimTypes.Role, administrator.Perfil)
             };
             
             var token = new JwtSecurityToken(

@@ -53,7 +53,6 @@ namespace minimal_api.src.administrators.domain.services.crud.impl
         {
             return new()
             {
-                Id = dto.Id ?? -1,
                 Email = dto.Email ?? "",
                 Password = dto.Password ?? "",
                 Perfil = dto.Perfil ?? ""

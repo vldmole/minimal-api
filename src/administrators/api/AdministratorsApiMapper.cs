@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using minimal_api.src.administrators.domain.entities;
 using minimal_api.src.administrators.domain.services.crud;
@@ -18,7 +19,7 @@ namespace minimal_api.src.administrators.api
                     var newDto = service.Create(dto);
                     return Results.Created($"{URL_BASE}/{newDto.Id}", newDto);
                 })
-                .RequireAuthorization()
+                .RequireAuthorization(policy => policy.RequireRole("Admin"))
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -28,7 +29,7 @@ namespace minimal_api.src.administrators.api
                     Administrator newAdm = service.Update(id, dto);
                     return Results.Created($"{URL_BASE}/{newAdm.Id}", newAdm);
                 })
-                .RequireAuthorization()
+                .RequireAuthorization(policy => policy.RequireRole("Admin"))
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -38,7 +39,7 @@ namespace minimal_api.src.administrators.api
                     service.Delete(id);
                     return Results.Ok();
                 })
-                .RequireAuthorization()
+                .RequireAuthorization(policy => policy.RequireRole("Admin"))
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -48,7 +49,7 @@ namespace minimal_api.src.administrators.api
                 {
                     return service.FindById(id);
                 })
-                .RequireAuthorization()
+                .RequireAuthorization(policy => policy.RequireRole("Admin"))
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
 
@@ -58,7 +59,7 @@ namespace minimal_api.src.administrators.api
                     var list = service.ReadAll((v) => true, page, pageSize);
                     return Results.Ok(list);
                 })
-                .RequireAuthorization()
+                .RequireAuthorization(policy => policy.RequireRole("Admin"))
                 .AddEndpointFilter<TExceptionHandler>()
                 .WithTags("Administrators");
         }
