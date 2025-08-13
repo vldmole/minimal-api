@@ -69,22 +69,20 @@ builder.Services.AddSwaggerGen(options =>
         }
     );
 /*
-    var securityRequirement = new OpenApiSecurityRequirement
-    {
+    var securityRequirement = new OpenApiSecurityRequirement();
+    securityRequirement.Add(
+        new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            Reference = new OpenApiReference
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            []
-        }
-    };
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        []
+    );
     options.AddSecurityRequirement(securityRequirement);
-    //it is the same as follow
+    //it is the same as following  
 */
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
